@@ -1,37 +1,18 @@
-import { setItem, getItem, removeItem } from "../utils/storage";
+import { setItem, removeItem } from "../utils/storage";
+import { apiRequest } from "./api";
 
 export async function login(email, password) {
-  const response = await fetch("https://api.exemplo.com/login", {
+  const data = await apiRequest("/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
 
-  if (!response.ok) {
-    throw new Error("Erro no login");
-  }
-
-  const data = await response.json();
   setItem("token", data.token);
   return data;
 }
 
 export async function getProfile() {
-  const token = getItem("token");
-  if (!token) throw new Error("Token não encontrado");
-
-  const response = await fetch("https://api.exemplo.com/profile", {
-    method: "GET",
-    headers: {
-      "Authorization": `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Erro ao buscar perfil");
-  }
-
-  return await response.json();
+  return apiRequest("/profile", { method: "GET" });
 }
 
 export function logout() {
