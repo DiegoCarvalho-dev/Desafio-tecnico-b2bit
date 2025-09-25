@@ -13,3 +13,25 @@ export async function login(email, password) {
   localStorage.setItem("token", data.token);
   return data;
 }
+
+export async function getProfile() {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Token não encontrado");
+
+  const response = await fetch("https://api.exemplo.com/profile", {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao buscar perfil");
+  }
+
+  return await response.json();
+}
+
+export function logout() {
+  localStorage.removeItem("token");
+}
