@@ -1,23 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "../ui/Button";
+import Button from "../components/ui/Button"; 
 
 export default function Header() {
   return (
     <header className="bg-white shadow-md p-4 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold text-blue-600">
-        CliqDrive 🚀
+      <Link to="/" className="text-xl font-bold">
+        Logo
       </Link>
-
-      <nav className="flex gap-4">
-        <Link to="/login" className="text-gray-700 hover:text-blue-600">
+      <nav>
+        <Link to="/login" className="mr-4">
           Login
         </Link>
-        <Link to="/dashboard" className="text-gray-700 hover:text-blue-600">
+        <Link to="/dashboard" className="mr-4">
           Dashboard
         </Link>
-        <Button>
-          <Link to="/login">Sair</Link>
+        <Button onClick={() => alert("Você clicou no botão do Header!")}>
+          Botão Header
         </Button>
       </nav>
     </header>
