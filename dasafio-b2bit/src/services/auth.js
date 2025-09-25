@@ -1,3 +1,5 @@
+import { setItem, getItem, removeItem } from "../utils/storage";
+
 export async function login(email, password) {
   const response = await fetch("https://api.exemplo.com/login", {
     method: "POST",
@@ -10,12 +12,12 @@ export async function login(email, password) {
   }
 
   const data = await response.json();
-  localStorage.setItem("token", data.token);
+  setItem("token", data.token);
   return data;
 }
 
 export async function getProfile() {
-  const token = localStorage.getItem("token");
+  const token = getItem("token");
   if (!token) throw new Error("Token não encontrado");
 
   const response = await fetch("https://api.exemplo.com/profile", {
@@ -33,5 +35,5 @@ export async function getProfile() {
 }
 
 export function logout() {
-  localStorage.removeItem("token");
+  removeItem("token");
 }
