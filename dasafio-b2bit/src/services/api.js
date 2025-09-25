@@ -1,15 +1,28 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
+import { getItem } from "../utils/storage";
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        {/* outras rotas virão depois */}
-      </Routes>
-    </BrowserRouter>
-  );
+const BASE_URL = import.meta.env.VITE_API_URL || "https://api.exemplo.com";
+
+export async function apiRequest(endpoint, options = {}) {
+  const token = getItem("token");
+
+  const headers = {
+    "Content-Type": "application/json",
+    ...options.headers,
+  };
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${BASE_URL}${endpoint}`, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null);
+    throw new Error(errorData?.message || "Erro na requisição");
+  }
+
+  return response.json();
 }
-
-export default App;
