@@ -1,21 +1,22 @@
-import { Card, CardContent } from "../components/ui/Card";
-import ChartCard from "../components/dashboard/ChartCard";
-import TableCard from "../components/dashboard/TableCard";
+import React from "react";
+import Card from "../components/Card";
+import Chart from "../components/Chart";
+import { mockData } from "../data/mockData";
 
 export default function Dashboard() {
   return (
-    <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <Card>
-        <CardContent>
-          <h2 className="text-xl font-semibold mb-2">Bem-vindo, Usuário 👋</h2>
-          <p className="text-gray-600">
-            Aqui está um resumo do desempenho da sua empresa.
-          </p>
-        </CardContent>
-      </Card>
+    <div className="dashboard">
+      <h2>Bem-vindo, Usuário</h2>
+      <p>Aqui é um resumo do desempenho da sua empresa:</p>
 
-      <ChartCard />
-      <TableCard />
+      <div className="cards">
+        <Card title="Vendas Mensais" value={`R$ ${mockData.kpis.vendasMensais}`} />
+        <Card title="Últimas Vendas" value={mockData.kpis.ultimasVendas} />
+        <Card title="Clientes" value={mockData.kpis.clientes} />
+        <Card title="Valor" value={mockData.kpis.valor} />
+      </div>
+
+      <Chart labels={mockData.vendasMensais.labels} data={mockData.vendasMensais.data} />
     </div>
   );
 }
