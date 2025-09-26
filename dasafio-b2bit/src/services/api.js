@@ -1,28 +1,15 @@
-import { getItem } from "../utils/storage";
+import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "https://api.exemplo.com";
+const api = axios.create({
+  baseURL: "http://localhost:3000"
+});
 
-export async function apiRequest(endpoint, options = {}) {
-  const token = getItem("token");
-
-  const headers = {
-    "Content-Type": "application/json",
-    ...options.headers,
-  };
-
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
   if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
+  return config;
+});
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => null);
-    throw new Error(errorData?.message || "Erro na requisição");
-  }
-
-  return response.json();
-}
+export default api;
