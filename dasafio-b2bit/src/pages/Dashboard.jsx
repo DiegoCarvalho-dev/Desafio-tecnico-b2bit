@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getProfile, logout } from "../services/auth";
-import Button from "../components/ui/Button";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/ui/Button";
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
@@ -14,10 +14,11 @@ export default function Dashboard() {
         setUser(profile);
       } catch (error) {
         console.error("Erro ao carregar perfil:", error);
+        navigate("/login");
       }
     }
     fetchUser();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     logout();
@@ -25,21 +26,43 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md text-center">
-        <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-        {user ? (
-          <>
-            <p className="mb-4">
-              Bem-vindo, <strong>{user.name}</strong> 👋
-            </p>
-            <p className="mb-6">Email: {user.email}</p>
-          </>
-        ) : (
-          <p>Carregando...</p>
-        )}
-        <Button onClick={handleLogout}>Sair</Button>
-      </div>
+    <div className="min-h-screen flex bg-gray-100">
+      {/* Menu lateral */}
+      <aside className="w-64 bg-white shadow-md p-6 hidden md:block">
+        <h2 className="text-xl font-bold mb-6">Painel</h2>
+        <nav className="flex flex-col gap-3">
+          <button className="text-left hover:bg-gray-200 rounded px-3 py-2">
+            Visão Geral
+          </button>
+          <button className="text-left hover:bg-gray-200 rounded px-3 py-2">
+            Configurações
+          </button>
+          <button
+            onClick={handleLogout}
+            className="text-left text-red-600 hover:bg-red-100 rounded px-3 py-2"
+          >
+            Sair
+          </button>
+        </nav>
+      </aside>
+
+      {/* Conteúdo principal */}
+      <main className="flex-1 p-8">
+        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+
+        <div className="bg-white shadow rounded-xl p-6">
+          {user ? (
+            <>
+              <p className="text-lg mb-2">
+                👋 Bem-vindo, <strong>{user.name}</strong>
+              </p>
+              <p className="text-gray-600">Email: {user.email}</p>
+            </>
+          ) : (
+            <p>Carregando...</p>
+          )}
+        </div>
+      </main>
     </div>
   );
 }
