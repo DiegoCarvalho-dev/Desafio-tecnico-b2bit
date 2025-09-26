@@ -1,30 +1,11 @@
-import { apiRequest } from "./api";
-import * as mock from "./authMock";
-import { setItem, removeItem } from "../utils/storage";
-
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
-
-export async function login(email, password) {
-  if (USE_MOCK) return mock.login(email, password);
-
-  const data = await apiRequest("/auth/login/", {
-    method: "POST",
-    body: JSON.stringify({ email, password }),
+export async function loginUser({ email, password }) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (email === "admin@teste.com" && password === "123456") {
+        resolve({ token: "fake-jwt-token", user: { name: "Admin", email } });
+      } else {
+        reject(new Error("E-mail ou senha inválidos"));
+      }
+    }, 1000);
   });
-
-  const token = data?.access || data?.token || data?.access_token;
-  if (!token) throw new Error("Token não retornado pela API");
-
-  setItem("token", token);
-  return data;
-}
-
-export async function getProfile() {
-  if (USE_MOCK) return mock.getProfile();
-  return apiRequest("/auth/profile/", { method: "GET" });
-}
-
-export function logout() {
-  if (USE_MOCK) return mock.logout();
-  removeItem("token");
 }
