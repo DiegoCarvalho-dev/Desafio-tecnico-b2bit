@@ -1,20 +1,22 @@
 import { Link } from "react-router-dom";
-import { Home, BarChart, Settings, User, Bell, HelpCircle, CreditCard, Layers, Users, Activity, Calendar } from "lucide-react";
+import { 
+  Home, BarChart, Settings, User, Bell, HelpCircle, 
+  CreditCard, Layers, Users, Activity, Calendar 
+} from "lucide-react";
 
 export default function Sidebar() {
   const menuItems = [
-    { path: "/", label: "Home", icon: <Home size={18} /> },
-    { path: "/dashboard", label: "Dashboard", icon: <BarChart size={18} /> },
-    { path: "/reports", label: "Relatórios", icon: <BarChart size={18} /> },
-    { path: "/settings", label: "Configurações", icon: <Settings size={18} /> },
-    { path: "/profile", label: "Perfil", icon: <User size={18} /> },
-    { path: "/notifications", label: "Notificações", icon: <Bell size={18} /> },
-    { path: "/support", label: "Suporte", icon: <HelpCircle size={18} /> },
-    { path: "/billing", label: "Faturas", icon: <CreditCard size={18} /> },
-    { path: "/integrations", label: "Integrações", icon: <Layers size={18} /> },
-    { path: "/team", label: "Equipe", icon: <Users size={18} /> },
-    { path: "/activity", label: "Atividades", icon: <Activity size={18} /> },
-    { path: "/calendar", label: "Calendário", icon: <Calendar size={18} /> },
+    { path: "/app/dashboard", label: "Dashboard", icon: <BarChart size={18} /> },
+    { path: "/app/reports", label: "Relatórios", icon: <BarChart size={18} /> },
+    { path: "/app/settings", label: "Configurações", icon: <Settings size={18} /> },
+    { path: "/app/profile", label: "Perfil", icon: <User size={18} /> },
+    { path: "/app/notifications", label: "Notificações", icon: <Bell size={18} /> },
+    { path: "/app/support", label: "Suporte", icon: <HelpCircle size={18} /> },
+    { path: "/app/invoices", label: "Faturas", icon: <CreditCard size={18} /> },
+    { path: "/app/integrations", label: "Integrações", icon: <Layers size={18} /> },
+    { path: "/app/team", label: "Equipe", icon: <Users size={18} /> },
+    { path: "/app/activity", label: "Atividades", icon: <Activity size={18} /> },
+    { path: "/app/calendar", label: "Calendário", icon: <Calendar size={18} /> },
   ];
 
   return (

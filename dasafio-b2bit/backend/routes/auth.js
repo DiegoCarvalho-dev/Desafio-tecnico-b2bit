@@ -4,15 +4,11 @@ const router = express.Router();
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  if (email === "teste@teste.com" && password === "123456") {
-    return res.json({
-      success: true,
-      token: "fake-jwt-token",
-      user: { name: "Usuário Teste", email }
-    });
+  if (email === "teste@empresa.com" && password === "123456") {
+    return res.json({ success: true, token: "fake-jwt-token" });
   }
 
-  res.status(401).json({ success: false, message: "Credenciais inválidas" });
+  return res.status(401).json({ success: false, message: "Credenciais inválidas" });
 });
 
 export default router;

@@ -9,15 +9,15 @@ function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await login(email, password);
-      localStorage.setItem("token", data.token);
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Credenciais inválidas");
-    }
-  };
+  e.preventDefault();
+  try {
+    const data = await login(email, password);
+    localStorage.setItem("token", data.token);
+    navigate("/app/dashboard");
+  } catch (err) {
+    setError("Credenciais inválidas");
+  }
+};
 
   return (
     <div className="login-container">
