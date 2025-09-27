@@ -1,40 +1,36 @@
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Chart from "../components/Chart";
-import api from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { getDashboardData } from "../services/api";
 
-export default function Dashboard() {
-  const [dados, setDados] = useState(null);
-  const navigate = useNavigate();
+function Dashboard() {
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
       try {
-        const response = await api.get("/dashboard");
-        setDados(response.data);
-      } catch (error) {
-        navigate("/"); 
+        const dashboard = await getDashboardData();
+        setData(dashboard);
+      } catch (err) {
+        console.error("Erro ao carregar dashboard:", err);
       }
-    };
+    }
     fetchData();
-  }, [navigate]);
+  }, []);
 
-  if (!dados) return <p>Carregando...</p>;
+  if (!data) return <p>Carregando...</p>;
 
   return (
-    <div className="dashboard">
-      <h2>Bem-vindo, Usuário</h2>
-      <p>Aqui é um resumo do desempenho da sua empresa:</p>
-
+    <div>
+      <h2>Bem-vindo, usuário</h2>
       <div className="cards">
-        <Card title="Vendas Mensais" value={`R$ ${dados.kpis.vendasMensais}`} />
-        <Card title="Últimas Vendas" value={dados.kpis.ultimasVendas} />
-        <Card title="Clientes" value={dados.kpis.clientes} />
-        <Card title="Valor" value={dados.kpis.valor} />
+        <Card title="Vendas Mensais" value={data.monthlySales} />
+        <Card title="Última Venda" value={data.lastSale.value} />
+        <Card title="Cliente" value={data.lastSale.client} />
       </div>
-
-      <Chart labels={dados.vendasMensais.labels} data={dados.vendasMensais.data} />
+      <Chart chartData={data.chartData} />
     </div>
   );
 }
+
+export default Dashboard;
