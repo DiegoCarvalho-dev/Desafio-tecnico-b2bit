@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Card({ title, value }) {
+function Card({ title, value }) {
   return (
     <div className="card">
       <h3>{title}</h3>
@@ -8,3 +8,5 @@ export default function Card({ title, value }) {
     </div>
   );
 }
+
+export default Card;
