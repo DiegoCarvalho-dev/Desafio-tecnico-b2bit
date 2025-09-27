@@ -18,12 +18,28 @@ function Chart({ chartData }) {
       {
         label: "Vendas",
         data: chartData.values,
-        backgroundColor: "rgba(75,192,192,0.6)",
+        backgroundColor: "rgba(37, 99, 235, 0.7)",
+        borderRadius: 6,
       },
     ],
   };
 
-  return <Bar data={data} />;
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { display: true, position: "top" },
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { stepSize: 1000 } },
+    },
+  };
+
+  return (
+    <div className="bg-white shadow-md rounded-lg p-6 mt-6">
+      <h3 className="text-lg font-bold mb-4">Desempenho de Vendas</h3>
+      <Bar data={data} options={options} />
+    </div>
+  );
 }
 
 export default Chart;
