@@ -1,15 +1,18 @@
-import axios from "axios";
+const API_URL = "http://localhost:5000/api";
 
-const api = axios.create({
-  baseURL: "http://localhost:3000"
-});
+export async function login(email, password) {
+  const res = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+  if (!res.ok) throw new Error("Falha no login");
+  return res.json();
+}
 
-export default api;
+export async function getDashboardData() {
+  const res = await fetch(`${API_URL}/dashboard`);
+  if (!res.ok) throw new Error("Erro ao carregar dados do dashboard");
+  return res.json();
+}
