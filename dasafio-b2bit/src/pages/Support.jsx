@@ -1,32 +1,12 @@
-import { Card, CardContent } from "@/components/ui/card";
-import Button from "@/components/ui/Button";
+import React from "react";
 
-export default function Support() {
+const Suporte = () => {
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Suporte</h1>
-      <Card>
-        <CardContent className="space-y-4">
-          <form className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium">Assunto</label>
-              <input
-                type="text"
-                placeholder="Digite o assunto"
-                className="w-full border p-2 rounded-lg"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Mensagem</label>
-              <textarea
-                placeholder="Descreva seu problema"
-                className="w-full border p-2 rounded-lg"
-              ></textarea>
-            </div>
-            <Button>Enviar</Button>
-          </form>
-        </CardContent>
-      </Card>
+    <div style={{ padding: "20px" }}>
+      <h2>💬 Suporte</h2>
+      <p>Entre em contato com a nossa equipe de atendimento.</p>
     </div>
   );
-}
+};
+
+export default Suporte;

@@ -13,7 +13,7 @@ function Login() {
   try {
     const data = await login(email, password);
     localStorage.setItem("token", data.token);
-    navigate("/app/dashboard");
+    navigate("/dashboard");
   } catch (err) {
     setError("Credenciais inválidas");
   }

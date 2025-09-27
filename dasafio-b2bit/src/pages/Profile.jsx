@@ -1,16 +1,12 @@
-import { Card, CardContent } from "@/components/ui/card";
+import React from "react";
 
-export default function Profile() {
+const Perfil = () => {
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Perfil</h1>
-      <Card>
-        <CardContent className="space-y-4">
-          <p><strong>Nome:</strong> Usuário Exemplo</p>
-          <p><strong>Email:</strong> usuario@email.com</p>
-          <p><strong>Função:</strong> Administrador</p>
-        </CardContent>
-      </Card>
+    <div style={{ padding: "20px" }}>
+      <h2>👤 Perfil</h2>
+      <p>Gerencie as informações da sua conta.</p>
     </div>
   );
-}
+};
+
+export default Perfil;

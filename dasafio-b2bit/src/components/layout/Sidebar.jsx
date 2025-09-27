@@ -1,39 +1,25 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import { 
-  Home, BarChart, Settings, User, Bell, HelpCircle, 
-  CreditCard, Layers, Users, Activity, Calendar 
-} from "lucide-react";
+import "./Sidebar.css";
 
-export default function Sidebar() {
-  const menuItems = [
-    { path: "/app/dashboard", label: "Dashboard", icon: <BarChart size={18} /> },
-    { path: "/app/reports", label: "Relatórios", icon: <BarChart size={18} /> },
-    { path: "/app/settings", label: "Configurações", icon: <Settings size={18} /> },
-    { path: "/app/profile", label: "Perfil", icon: <User size={18} /> },
-    { path: "/app/notifications", label: "Notificações", icon: <Bell size={18} /> },
-    { path: "/app/support", label: "Suporte", icon: <HelpCircle size={18} /> },
-    { path: "/app/invoices", label: "Faturas", icon: <CreditCard size={18} /> },
-    { path: "/app/integrations", label: "Integrações", icon: <Layers size={18} /> },
-    { path: "/app/team", label: "Equipe", icon: <Users size={18} /> },
-    { path: "/app/activity", label: "Atividades", icon: <Activity size={18} /> },
-    { path: "/app/calendar", label: "Calendário", icon: <Calendar size={18} /> },
-  ];
-
+const Sidebar = () => {
   return (
-    <aside className="w-64 bg-white shadow-lg p-4 space-y-4">
-      <h2 className="text-lg font-bold">Menu</h2>
-      <nav className="space-y-2">
-        {menuItems.map((item, index) => (
-          <Link
-            key={index}
-            to={item.path}
-            className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100"
-          >
-            {item.icon}
-            <span>{item.label}</span>
-          </Link>
-        ))}
+    <aside className="sidebar">
+      <h2 className="logo">Dashboard</h2>
+      <nav>
+        <ul>
+          <li><Link to="/dashboard">🏠 Dashboard</Link></li>
+          <li><Link to="/relatorios">📊 Relatórios</Link></li>
+          <li><Link to="/configuracoes">⚙️ Configurações</Link></li>
+          <li><Link to="/perfil">👤 Perfil</Link></li>
+          <li><Link to="/notificacoes">🔔 Notificações</Link></li>
+          <li><Link to="/suporte">💬 Suporte</Link></li>
+          <li><Link to="/faturas">💳 Faturas</Link></li>
+          <li><Link to="/integracoes">🔗 Integrações</Link></li>
+        </ul>
       </nav>
     </aside>
   );
-}
+};
+
+export default Sidebar;

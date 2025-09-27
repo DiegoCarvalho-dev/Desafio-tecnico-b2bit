@@ -1,5 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Sidebar from "./components/layout/Sidebar";
+
 import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
@@ -13,12 +15,28 @@ import Activity from "./pages/Activity";
 import Calendar from "./pages/Calendar";
 import Login from "./pages/Login";
 
-function Layout() {
+function AppContent() {
+  const location = useLocation();
+  const hideSidebar = location.pathname === "/";
+
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1 p-6">
-        <Outlet />
+    <div style={{ display: "flex" }}>
+      {!hideSidebar && <Sidebar />}
+      <div style={{ marginLeft: hideSidebar ? "0" : "220px", flex: 1 }}>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/invoices" element={<Invoices />} />
+          <Route path="/integrations" element={<Integrations />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/activity" element={<Activity />} />
+          <Route path="/calendar" element={<Calendar />} />
+        </Routes>
       </div>
     </div>
   );
@@ -27,25 +45,7 @@ function Layout() {
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* Página inicial será o Login */}
-        <Route path="/" element={<Login />} />
-
-        {/* Rotas com Sidebar */}
-        <Route path="/app" element={<Layout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="reports" element={<Reports />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="notifications" element={<Notifications />} />
-          <Route path="support" element={<Support />} />
-          <Route path="invoices" element={<Invoices />} />
-          <Route path="integrations" element={<Integrations />} />
-          <Route path="team" element={<Team />} />
-          <Route path="activity" element={<Activity />} />
-          <Route path="calendar" element={<Calendar />} />
-        </Route>
-      </Routes>
+      <AppContent />
     </Router>
   );
 }
