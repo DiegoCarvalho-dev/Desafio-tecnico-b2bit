@@ -18,3 +18,9 @@
   box-shadow: 0px 1px 4px rgba(0,0,0,0.1);
   margin-bottom: 20px;
 }
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}

@@ -1,17 +1,16 @@
 import React from "react";
+import "./Card.css";
 
-export function Card({ children, className }) {
+export default function Card({ title, value, icon }) {
   return (
-    <div className={`bg-white shadow-md rounded-lg p-4 ${className}`}>
-      {children}
-    </div>
-  );
-}
-
-export function CardContent({ children, className }) {
-  return (
-    <div className={`text-gray-700 ${className}`}>
-      {children}
+    <div className="card">
+      <div className="card-header">
+        {icon && <span className="card-icon">{icon}</span>}
+        <h3>{title}</h3>
+      </div>
+      <div className="card-body">
+        <p>{value}</p>
+      </div>
     </div>
   );
 }

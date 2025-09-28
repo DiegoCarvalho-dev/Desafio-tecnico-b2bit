@@ -1,22 +1,32 @@
-import { Card, CardContent } from "@/components/ui/Card";
+import React, { useEffect, useState } from "react";
+import Card from "../components/ui/Card";
+import Chart from "../components/ui/Chart";
+import "../styles/Styles.css";
 
-export default function Calendar() {
-  const events = [
-    { id: 1, date: "25/09/2025", event: "Reunião de equipe" },
-    { id: 2, date: "28/09/2025", event: "Entrega de relatório" },
-  ];
+export default function Dashboard() {
+  const [dados, setDados] = useState([]);
+
+  useEffect(() => {
+    setDados([
+      { month: "Jan", faturamento: 4000 },
+      { month: "Feb", faturamento: 3000 },
+      { month: "Mar", faturamento: 5000 },
+      { month: "Apr", faturamento: 7000 },
+      { month: "May", faturamento: 6000 },
+      { month: "Jun", faturamento: 8000 }
+    ]);
+  }, []);
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Calendário</h1>
-      {events.map((e) => (
-        <Card key={e.id}>
-          <CardContent className="flex justify-between p-4">
-            <span>{e.date}</span>
-            <span>{e.event}</span>
-          </CardContent>
-        </Card>
-      ))}
+    <div className="main-content">
+      <h1>Painel de Controle</h1>
+      <div className="cards-grid">
+        <Card title="Vendas" value="120" />
+        <Card title="Clientes" value="75" />
+        <Card title="Faturamento" value="R$ 45.000" />
+      </div>
+      <h2>Gráfico de Faturamento</h2>
+      <Chart data={dados} />
     </div>
   );
 }
