@@ -1,12 +1,14 @@
 import React from "react";
 
-const Integracoes = () => {
+const Integrations = () => {
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>🔗 Integrações</h2>
-      <p>Gerencie conexões com outros sistemas e APIs.</p>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Integrações</h1>
+      <p className="text-gray-600">
+        Conecte e configure integrações com outras plataformas e serviços.
+      </p>
     </div>
   );
 };
 
-export default Integracoes;
+export default Integrations;

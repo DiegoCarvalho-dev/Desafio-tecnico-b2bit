@@ -1,12 +1,14 @@
 import React from "react";
 
-const Suporte = () => {
+const Support = () => {
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>💬 Suporte</h2>
-      <p>Entre em contato com a nossa equipe de atendimento.</p>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Suporte</h1>
+      <p className="text-gray-600">
+        Precisa de ajuda? Entre em contato com nossa equipe de suporte.
+      </p>
     </div>
   );
 };
 
-export default Suporte;
+export default Support;
