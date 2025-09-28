@@ -1,14 +1,22 @@
 import React from "react";
 
-const Notifications = () => {
+function Notifications() {
+  const notifications = [
+    { id: 1, message: "Novo pedido recebido 📦" },
+    { id: 2, message: "Pagamento confirmado 💳" },
+    { id: 3, message: "Cliente enviou uma mensagem 📩" },
+  ];
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Notificações</h1>
-      <p className="text-gray-600">
-        Veja alertas importantes e mensagens recentes.
-      </p>
+    <div style={{ padding: "20px" }}>
+      <h2>Notificações</h2>
+      <ul>
+        {notifications.map((n) => (
+          <li key={n.id}>{n.message}</li>
+        ))}
+      </ul>
     </div>
   );
-};
+}
 
 export default Notifications;

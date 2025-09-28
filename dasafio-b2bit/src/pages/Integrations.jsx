@@ -1,14 +1,25 @@
 import React from "react";
 
-const Integrations = () => {
+function Integrations() {
+  const integrations = [
+    { id: 1, name: "Google Drive", status: "Conectado ✅" },
+    { id: 2, name: "Dropbox", status: "Não conectado ❌" },
+    { id: 3, name: "API Interna", status: "Conectado ✅" },
+  ];
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Integrações</h1>
-      <p className="text-gray-600">
-        Conecte e configure integrações com outras plataformas e serviços.
-      </p>
+    <div style={{ padding: "20px" }}>
+      <h2>Integrações</h2>
+      <p>Gerencie suas integrações com serviços externos.</p>
+      <ul>
+        {integrations.map((i) => (
+          <li key={i.id}>
+            {i.name} - {i.status}
+          </li>
+        ))}
+      </ul>
     </div>
   );
-};
+}
 
 export default Integrations;

@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Settings = () => {
+function Settings() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [notifications, setNotifications] = useState(true);
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Configurações</h1>
-      <p className="text-gray-600">
-        Ajuste preferências do sistema, privacidade e notificações.
-      </p>
+    <div style={{ padding: "20px" }}>
+      <h2>Configurações</h2>
+      <p>Personalize sua experiência.</p>
+      <div style={{ marginTop: "20px" }}>
+        <label>
+          <input type="checkbox" checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
+          Modo Escuro
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="checkbox" checked={notifications} onChange={() => setNotifications(!notifications)} />
+          Ativar Notificações
+        </label>
+      </div>
     </div>
   );
-};
+}
 
 export default Settings;

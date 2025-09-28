@@ -10,12 +10,13 @@ const Sidebar = () => {
         <ul>
           <li><Link to="/dashboard">🏠 Dashboard</Link></li>
           <li><Link to="/relatorios">📊 Relatórios</Link></li>
-          <li><Link to="/configuracoes">⚙️ Configurações</Link></li>
-          <li><Link to="/perfil">👤 Perfil</Link></li>
-          <li><Link to="/notificacoes">🔔 Notificações</Link></li>
-          <li><Link to="/suporte">💬 Suporte</Link></li>
+          <li><Link to="/settings">⚙️ Configurações</Link></li>
+          <li><Link to="/profile">👤 Perfil</Link></li>
+          <li><Link to="/notifications">🔔 Notificações</Link></li>
+          <li><Link to="/support">💬 Suporte</Link></li>
           <li><Link to="/faturas">💳 Faturas</Link></li>
-          <li><Link to="/integracoes">🔗 Integrações</Link></li>
+          <li><Link to="/integrations">🔗 Integrações</Link></li>
+
         </ul>
       </nav>
     </aside>

@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Support = () => {
+function Support() {
+  const [message, setMessage] = useState("");
+
+  const handleSend = (e) => {
+    e.preventDefault();
+    alert("Mensagem enviada para o suporte!");
+    setMessage("");
+  };
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Suporte</h1>
-      <p className="text-gray-600">
-        Precisa de ajuda? Entre em contato com nossa equipe de suporte.
-      </p>
+    <div style={{ padding: "20px" }}>
+      <h2>Suporte</h2>
+      <p>Envie sua dúvida para nossa equipe de suporte.</p>
+      <form onSubmit={handleSend} style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "400px" }}>
+        <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Digite sua mensagem" rows={5} />
+        <button type="submit">Enviar</button>
+      </form>
     </div>
   );
-};
+}
 
 export default Support;
