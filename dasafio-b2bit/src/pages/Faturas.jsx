@@ -1,14 +1,16 @@
 import React from "react";
+import "../styles/styles.css";
 
-const Faturas = () => {
+function Faturas() {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Faturas</h1>
-      <p className="text-gray-600">
-        Gerencie suas faturas e acompanhe o histórico de pagamentos aqui.
-      </p>
+    <div className="main-content">
+      <h2 className="page-title">💳 Faturas</h2>
+      <div className="card">
+        <h3>Suas Faturas</h3>
+        <p>Acompanhe o histórico de pagamento aqui.</p>
+      </div>
     </div>
   );
-};
+}
 
 export default Faturas;

@@ -1,23 +1,18 @@
 import React from "react";
+import "../styles/styles.css";
 
 function Integrations() {
-  const integrations = [
-    { id: 1, name: "Google Drive", status: "Conectado ✅" },
-    { id: 2, name: "Dropbox", status: "Não conectado ❌" },
-    { id: 3, name: "API Interna", status: "Conectado ✅" },
-  ];
-
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Integrações</h2>
-      <p>Gerencie suas integrações com serviços externos.</p>
-      <ul>
-        {integrations.map((i) => (
-          <li key={i.id}>
-            {i.name} - {i.status}
-          </li>
-        ))}
-      </ul>
+    <div className="main-content">
+      <h2 className="page-title">🔗 Integrações</h2>
+      <div className="card">
+        <h3>Gerencie suas integrações</h3>
+        <ul>
+          <li>Google Drive ✅ Conectado</li>
+          <li>Dropbox ❌ Não conectado</li>
+          <li>API Interna ✅ Conectada</li>
+        </ul>
+      </div>
     </div>
   );
 }

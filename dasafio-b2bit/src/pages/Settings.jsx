@@ -1,22 +1,30 @@
 import React, { useState } from "react";
+import "../styles/styles.css";
 
 function Settings() {
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Configurações</h2>
-      <p>Personalize sua experiência.</p>
-      <div style={{ marginTop: "20px" }}>
+    <div className="main-content">
+      <h2 className="page-title">⚙️ Configurações</h2>
+      <div className="card">
+        <h3>Personalize sua experiência</h3>
         <label>
-          <input type="checkbox" checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
-          Modo Escuro
+          <input
+            type="checkbox"
+            checked={darkMode}
+            onChange={() => setDarkMode(!darkMode)}
+          />
+          Ativar Modo Escuro
         </label>
-      </div>
-      <div>
+        <br />
         <label>
-          <input type="checkbox" checked={notifications} onChange={() => setNotifications(!notifications)} />
+          <input
+            type="checkbox"
+            checked={notifications}
+            onChange={() => setNotifications(!notifications)}
+          />
           Ativar Notificações
         </label>
       </div>

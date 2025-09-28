@@ -1,20 +1,24 @@
 import React from "react";
+import "../styles/styles.css";
 
 function Notifications() {
-  const notifications = [
-    { id: 1, message: "Novo pedido recebido 📦" },
-    { id: 2, message: "Pagamento confirmado 💳" },
-    { id: 3, message: "Cliente enviou uma mensagem 📩" },
+  const items = [
+    "Novo pedido recebido",
+    "Pagamento confirmado",
+    "Cliente enviou uma mensagem",
   ];
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Notificações</h2>
-      <ul>
-        {notifications.map((n) => (
-          <li key={n.id}>{n.message}</li>
-        ))}
-      </ul>
+    <div className="main-content">
+      <h2 className="page-title">🔔 Notificações</h2>
+      <div className="card">
+        <h3>Últimas notificações</h3>
+        <ul>
+          {items.map((item, index) => (
+            <li key={index}>✅ {item}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

@@ -1,22 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
+import "../styles/styles.css";
 
 function Support() {
-  const [message, setMessage] = useState("");
-
-  const handleSend = (e) => {
-    e.preventDefault();
-    alert("Mensagem enviada para o suporte!");
-    setMessage("");
-  };
-
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Suporte</h2>
-      <p>Envie sua dúvida para nossa equipe de suporte.</p>
-      <form onSubmit={handleSend} style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "400px" }}>
-        <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Digite sua mensagem" rows={5} />
-        <button type="submit">Enviar</button>
-      </form>
+    <div className="main-content">
+      <h2 className="page-title">💬 Suporte</h2>
+      <div className="card">
+        <h3>Envie sua dúvida</h3>
+        <textarea placeholder="Digite sua mensagem..." style={{ width: "100%", height: "100px" }} />
+        <br />
+        <button className="btn">Enviar</button>
+      </div>
     </div>
   );
 }
