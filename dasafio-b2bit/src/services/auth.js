@@ -1,11 +1,21 @@
-export async function loginUser({ email, password }) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (email === "admin@teste.com" && password === "123456") {
-        resolve({ token: "fake-jwt-token", user: { name: "Admin", email } });
-      } else {
-        reject(new Error("E-mail ou senha inválidos"));
-      }
-    }, 1000);
+const API_URL = "http://localhost:4000"; 
+
+export async function login(email, password) {
+  const res = await fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password })
   });
+  if (!res.ok) throw new Error("Falha no login");
+  const data = await res.json();
+  localStorage.setItem("token", data.token);
+  return data;
+}
+
+export function logout() {
+  localStorage.removeItem("token");
+}
+
+export function getToken() {
+  return localStorage.getItem("token");
 }
