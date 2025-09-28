@@ -1,0 +1,10 @@
+.toast {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 8px 0;
+  color: white;
+}
+
+.toast.success { background: #28a745; }
+.toast.error { background: #dc3545; }
+.toast.info { background: #007bff; }
