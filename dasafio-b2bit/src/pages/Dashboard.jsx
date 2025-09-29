@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchDashboardData } from "../services/api";
+import { getDashboard } from "../services/api";
 
 export default function Dashboard() {
   const [dados, setDados] = useState(null);
@@ -8,7 +8,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function carregar() {
       try {
-        const dadosAPI = await fetchDashboardData();
+        const dadosAPI = await getDashboard();
         setDados(dadosAPI);
       } catch (e) {
         console.error("Erro no Dashboard:", e);

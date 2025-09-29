@@ -1,18 +1,5 @@
-{
-  "summary": {
-    "users": 1240,
-    "sales": 87400,
-    "activities": 320
-  },
-  "monthlySales": [
-    { "month": "Jan", "value": 5000 },
-    { "month": "Feb", "value": 7200 },
-    { "month": "Mar", "value": 6100 },
-    { "month": "Apr", "value": 8900 }
-  ],
-  "recentSales": [
-    { "client": "João", "value": 500 },
-    { "client": "Maria", "value": 800 },
-    { "client": "Carlos", "value": 300 }
-  ]
-}
+[
+  { "month": "Janeiro", "sales": 3000 },
+  { "month": "Fevereiro", "sales": 2000 },
+  { "month": "Março", "sales": 4000 }
+]
