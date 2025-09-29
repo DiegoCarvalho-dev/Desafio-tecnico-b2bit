@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import Card from "../components/ui/Card";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const data = [

@@ -1,5 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
-import Button from "@/components/ui/Button";
+import React from "react";
+import Card from "../components/ui/Card";       
+import CardContent from "../components/ui/CardContent";
+import Button from "../components/ui/Button";
 
 export default function Team() {
   const members = [
