@@ -4,7 +4,7 @@
 
   const items = [
     { to: "/dashboard", label: "Dashboard", emoji: "🏠" },
-    { to: "/reports", label: "Relatórios", emoji: "📊" },
+    { to: "/relatorios", label: "Relatórios", emoji: "📊" },
     { to: "/settings", label: "Configurações", emoji: "⚙️" },
     { to: "/profile", label: "Perfil", emoji: "👤" },
     { to: "/notifications", label: "Notificações", emoji: "🔔" },
