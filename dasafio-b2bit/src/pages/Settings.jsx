@@ -1,35 +1,14 @@
-import React, { useState } from "react";
-import "../styles/styles.css";
+import React from "react";
+import Topbar from "../components/layout/Topbar";
 
-function Settings() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [notifications, setNotifications] = useState(true);
-
+export default function Settings() {
   return (
-    <div className="main-content">
-      <h2 className="page-title">⚙️ Configurações</h2>
-      <div className="card">
-        <h3>Personalize sua experiência</h3>
-        <label>
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={() => setDarkMode(!darkMode)}
-          />
-          Ativar Modo Escuro
-        </label>
-        <br />
-        <label>
-          <input
-            type="checkbox"
-            checked={notifications}
-            onChange={() => setNotifications(!notifications)}
-          />
-          Ativar Notificações
-        </label>
-      </div>
+    <div className="page">
+      <Topbar />
+      <main className="page-content">
+        <h2>Configurações</h2>
+        <div className="card">Opções de configuração do sistema</div>
+      </main>
     </div>
   );
 }
-
-export default Settings;

@@ -1,16 +1,39 @@
 import React from "react";
-import "../styles/styles.css";
+import Topbar from "../components/layout/Topbar";
 
-function Relatorios() {
+export default function Relatorios() {
+  const reports = [
+    { id: 1, name: "Vendas Janeiro", value: 3000 },
+    { id: 2, name: "Vendas Fevereiro", value: 2000 },
+    { id: 3, name: "Vendas Março", value: 4000 },
+  ];
+
   return (
-    <div className="main-content">
-      <h2 className="page-title">📊 Relatórios</h2>
-      <div className="card">
-        <h3>Visualize relatórios detalhados</h3>
-        <p>Aqui você poderá acompanhar vendas, clientes e desempenho geral.</p>
-      </div>
+    <div className="page">
+      <Topbar />
+      <main className="page-content">
+        <h2>Relatórios</h2>
+        <div className="card">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Relatório</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reports.map(r => (
+                <tr key={r.id}>
+                  <td>{r.id}</td>
+                  <td>{r.name}</td>
+                  <td>R$ {r.value.toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
     </div>
   );
 }
-
-export default Relatorios;
