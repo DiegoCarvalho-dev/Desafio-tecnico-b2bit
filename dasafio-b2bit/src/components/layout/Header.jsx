@@ -1,37 +1,32 @@
 import React from "react";
-import { logout } from "../../services/auth";
-import { useNavigate } from "react-router-dom";
-import { showToast } from "../../utils/toast";
+import { useLocation } from "react-router-dom";
 
 export default function Header({ user }) {
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleLogout = () => {
-    logout();
-    showToast("Logout efetuado com sucesso", "success");
-    navigate("/login");
+  const routeTitles = {
+    "/dashboard": "Dashboard",
+    "/relatorios": "Relatórios",
+    "/settings": "Configurações",
+    "/profile": "Perfil",
+    "/notifications": "Notificações",
+    "/support": "Suporte",
+    "/faturas": "Faturas",
+    "/integrations": "Integrações",
   };
 
-  return (
-    <header className="h-16 bg-white border-b shadow-sm flex items-center justify-between px-6">
-      <div className="flex items-center gap-3">
-        <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
-        <span className="font-bold text-lg text-gray-700">B2Bit Dashboard</span>
-      </div>
+  const title = routeTitles[location.pathname] || "Admin";
 
-      <div className="flex items-center gap-4">
-        <span className="text-gray-600 text-sm">{user?.name}</span>
+  return (
+    <header className="topbar">
+      <h1>{title}</h1>
+      <div className="user-info">
+        <span>{user?.name || "Usuário"}</span>
         <img
-          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "U")}&background=0D8ABC&color=fff`}
+          src="https://via.placeholder.com/40"
           alt="avatar"
-          className="w-9 h-9 rounded-full"
+          className="avatar"
         />
-        <button
-          onClick={handleLogout}
-          className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm"
-        >
-          Sair
-        </button>
       </div>
     </header>
   );
