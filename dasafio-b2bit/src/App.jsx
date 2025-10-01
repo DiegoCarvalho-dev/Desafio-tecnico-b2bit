@@ -15,14 +15,16 @@ import Activity from "./pages/Activity";
 import Calendar from "./pages/Calendar";
 import Login from "./pages/Login";
 
+import "./styles/App.css";
+
 function AppContent() {
   const location = useLocation();
   const hideSidebar = location.pathname === "/";
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-container">
       {!hideSidebar && <Sidebar />}
-      <div style={{ marginLeft: hideSidebar ? "0" : "220px", flex: 1 }}>
+      <div className="main-content">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
