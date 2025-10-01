@@ -1,5 +1,29 @@
 [
-  { "id": 1, "name": "Produto A", "price": 100 },
-  { "id": 2, "name": "Produto B", "price": 150 },
-  { "id": 3, "name": "Produto C", "price": 200 }
+  {
+    "id": 1,
+    "name": "Whey Protein Concentrado 1kg",
+    "price": 159.90,
+    "image": "/images/whey.jpg",
+    "category": "Suplementos",
+    "stock": 50,
+    "description": "Proteína de alta qualidade para ganho de massa muscular."
+  },
+  {
+    "id": 2,
+    "name": "Creatina Monohidratada 300g",
+    "price": 99.90,
+    "image": "/images/creatina.jpg",
+    "category": "Suplementos",
+    "stock": 100,
+    "description": "Aumenta força e performance nos treinos."
+  },
+  {
+    "id": 3,
+    "name": "Pré-Treino Hardcore 200g",
+    "price": 149.90,
+    "image": "/images/pretreino.jpg",
+    "category": "Suplementos",
+    "stock": 75,
+    "description": "Energia intensa e foco para treinos pesados."
+  }
 ]
