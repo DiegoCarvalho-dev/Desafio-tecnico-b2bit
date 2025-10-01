@@ -1,0 +1,11 @@
+.carousel-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 20px;
+  scroll-behavior: smooth;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 16px;
+}

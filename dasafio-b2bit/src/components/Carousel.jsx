@@ -1,10 +1,15 @@
 import React from "react";
+import ProductCard from "./ProductCard";
+import "./Carousel.css";
 
-export default function Carousel() {
+export default function Carousel({ items }) {
   return (
-    <div className="card" style={{ padding: 16, marginBottom: 16 }}>
-      <h2>Banner</h2>
-      <p className="small">Este é um carrossel / banner de exemplo — substituir por um componente real se quiser.</p>
+    <div className="carousel-container">
+      <div className="carousel-track">
+        {items.map((item) => (
+          <ProductCard key={item.id} product={item} />
+        ))}
+      </div>
     </div>
   );
 }
