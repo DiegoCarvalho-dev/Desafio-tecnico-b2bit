@@ -1,5 +1,19 @@
-[
-  { "month": "Janeiro", "sales": 3000 },
-  { "month": "Fevereiro", "sales": 2000 },
-  { "month": "Março", "sales": 4000 }
-]
+{
+  "users": 1420,
+  "sales": 923,
+  "revenue": 68700,
+  "monthlySales": [
+    { "month": "Jan", "sales": 3200 },
+    { "month": "Fev", "sales": 4100 },
+    { "month": "Mar", "sales": 2800 },
+    { "month": "Abr", "sales": 5300 },
+    { "month": "Mai", "sales": 4700 },
+    { "month": "Jun", "sales": 6100 },
+    { "month": "Jul", "sales": 5800 },
+    { "month": "Ago", "sales": 7200 },
+    { "month": "Set", "sales": 6800 },
+    { "month": "Out", "sales": 7900 },
+    { "month": "Nov", "sales": 8500 },
+    { "month": "Dez", "sales": 9200 }
+  ]
+}
