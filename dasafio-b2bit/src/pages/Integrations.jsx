@@ -1,20 +1,26 @@
 import React from "react";
-import "../styles/styles.css";
+import Topbar from "../components/layout/Topbar";
 
-function Integrations() {
+export default function Integrations(){
+  const items = [
+    { id: "gdrive", label: "Google Drive", connected: true },
+    { id: "dropbox", label: "Dropbox", connected: false },
+    { id: "api", label: "API interna", connected: true },
+  ];
   return (
-    <div className="main-content">
-      <h2 className="page-title">🔗 Integrações</h2>
-      <div className="card">
-        <h3>Gerencie suas integrações</h3>
-        <ul>
-          <li>Google Drive ✅ Conectado</li>
-          <li>Dropbox ❌ Não conectado</li>
-          <li>API Interna ✅ Conectada</li>
-        </ul>
-      </div>
+    <div className="page">
+      <Topbar title="Integrações" />
+      <main className="container">
+        <h3>Integrações</h3>
+        <div className="grid-cards">
+          {items.map(it => (
+            <div className="mini-card" key={it.id}>
+              <div className="mini-title">{it.label}</div>
+              <div className="mini-status">{it.connected ? "Conectado" : "Desconectado"}</div>
+            </div>
+          ))}
+        </div>
+      </main>
     </div>
   );
 }
-
-export default Integrations;

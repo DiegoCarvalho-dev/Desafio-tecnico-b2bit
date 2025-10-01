@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "../components/ui/Card";
 import Chart from "../components/ui/Chart";
-import "../styles/Styles.css";
 
 export default function Dashboard() {
   const [dados, setDados] = useState([]);
