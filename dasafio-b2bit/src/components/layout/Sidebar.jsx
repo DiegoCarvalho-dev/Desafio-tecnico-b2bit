@@ -1,26 +1,47 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "./Sidebar.css";
+  import React from "react";
+  import { NavLink } from "react-router-dom";
+  import "../../styles/Sidebar.css";
 
-const Sidebar = () => {
-  return (
-    <aside className="sidebar">
-      <h2 className="logo">Dashboard</h2>
-      <nav>
-        <ul>
-          <li><Link to="/dashboard">🏠 Dashboard</Link></li>
-          <li><Link to="/relatorios">📊 Relatórios</Link></li>
-          <li><Link to="/settings">⚙️ Configurações</Link></li>
-          <li><Link to="/profile">👤 Perfil</Link></li>
-          <li><Link to="/notifications">🔔 Notificações</Link></li>
-          <li><Link to="/support">💬 Suporte</Link></li>
-          <li><Link to="/faturas">💳 Faturas</Link></li>
-          <li><Link to="/integrations">🔗 Integrações</Link></li>
+  const items = [
+    { to: "/dashboard", label: "Dashboard", emoji: "🏠" },
+    { to: "/reports", label: "Relatórios", emoji: "📊" },
+    { to: "/settings", label: "Configurações", emoji: "⚙️" },
+    { to: "/profile", label: "Perfil", emoji: "👤" },
+    { to: "/notifications", label: "Notificações", emoji: "🔔" },
+    { to: "/support", label: "Suporte", emoji: "💬" },
+    { to: "/invoices", label: "Faturas", emoji: "💳" },
+    { to: "/integrations", label: "Integrações", emoji: "🔗" },
+    { to: "/team", label: "Equipe", emoji: "👥" },
+    { to: "/activity", label: "Atividades", emoji: "📋" },
+    { to: "/calendar", label: "Calendário", emoji: "📅" },
+  ];
 
-        </ul>
-      </nav>
-    </aside>
-  );
-};
+  export default function Sidebar() {
+    return (
+      <aside className="app-sidebar">
+        <div className="sidebar-brand">
+          <img src="/b2bitlogo.png" alt="logo" className="sidebar-logo" />
+          <span className="sidebar-title">B2bit</span>
+        </div>
 
-export default Sidebar;
+        <nav className="sidebar-nav">
+          {items.map((it) => (
+            <NavLink
+              key={it.to}
+              to={it.to}
+              className={({ isActive }) =>
+                "sidebar-link" + (isActive ? " active" : "")
+              }
+            >
+              <span className="sidebar-emoji">{it.emoji}</span>
+              <span>{it.label}</span>
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="sidebar-footer small">
+          © {new Date().getFullYear()} B2bit
+        </div>
+      </aside>
+    );
+  }
