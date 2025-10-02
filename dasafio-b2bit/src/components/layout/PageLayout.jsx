@@ -13,7 +13,6 @@ export default function Relatorios() {
       padding: '24px',
       overflowY: 'auto'
     }}>
-      {/* Header */}
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -46,13 +45,11 @@ export default function Relatorios() {
         </button>
       </div>
 
-      {/* Content */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
         gap: '24px'
       }}>
-        {/* Card 1 */}
         <div style={{
           background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
           borderRadius: '16px',
@@ -91,7 +88,6 @@ export default function Relatorios() {
           </div>
         </div>
 
-        {/* Card 2 */}
         <div style={{
           background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
           borderRadius: '16px',
