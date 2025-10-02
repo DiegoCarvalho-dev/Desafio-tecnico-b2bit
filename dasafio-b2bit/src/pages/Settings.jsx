@@ -9,11 +9,86 @@ export default function Settings() {
     timezone: 'America/Sao_Paulo'
   });
 
+  const [loading, setLoading] = useState({
+    cache: false,
+    export: false,
+    delete: false
+  });
+
   const handleSettingChange = (key, value) => {
     setSettings(prev => ({
       ...prev,
       [key]: value
     }));
+  };
+
+  const limparCache = async () => {
+    setLoading(prev => ({ ...prev, cache: true }));
+    
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    localStorage.removeItem('app-cache');
+    sessionStorage.clear();
+    
+    setLoading(prev => ({ ...prev, cache: false }));
+    alert('✅ Cache limpo com sucesso!');
+  };
+
+  const exportarDados = async () => {
+    setLoading(prev => ({ ...prev, export: true }));
+    
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const dadosExportacao = {
+      usuario: {
+        nome: "Usuário B2Bit",
+        email: "diegoricardo2527@gmail.com",
+        ultimoAcesso: new Date().toISOString()
+      },
+      configuracoes: settings,
+      metricas: {
+        vendasTotais: 68700,
+        usuariosAtivos: 1420,
+        crescimento: "28%"
+      },
+      dataExportacao: new Date().toISOString()
+    };
+
+
+    const dadosString = JSON.stringify(dadosExportacao, null, 2);
+    const blob = new Blob([dadosString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `dados-b2bit-${new Date().getTime()}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    setLoading(prev => ({ ...prev, export: false }));
+    alert('📊 Dados exportados com sucesso!');
+  };
+
+  const excluirConta = async () => {
+    const confirmacao = window.confirm(
+      '🚨 ATENÇÃO: Esta ação é irreversível!\n\n' +
+      'Todos os seus dados serão permanentemente excluídos.\n' +
+      'Tem certeza que deseja excluir sua conta?'
+    );
+
+    if (!confirmacao) return;
+
+    setLoading(prev => ({ ...prev, delete: true }));
+    
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    
+    setLoading(prev => ({ ...prev, delete: false }));
+    alert('✅ Conta excluída com sucesso!');
+    
+    setTimeout(() => {
+      window.location.href = '/login';
+    }, 2000);
   };
 
   return (
@@ -78,7 +153,6 @@ export default function Settings() {
         </button>
       </div>
 
-      {/* Conteúdo Principal */}
       <div style={{
         padding: '32px',
         position: 'relative',
@@ -276,7 +350,6 @@ export default function Settings() {
               </select>
             </div>
 
-            {/* Fuso Horário */}
             <div style={{ marginBottom: '20px' }}>
               <label style={{ 
                 display: 'block', 
@@ -356,46 +429,67 @@ export default function Settings() {
             gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
             gap: '20px'
           }}>
-            <button style={{
-              background: 'rgba(255, 255, 255, 0.1)',
-              color: '#cbd5e1',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              padding: '16px',
-              borderRadius: '10px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              textAlign: 'left'
-            }}>
-              🗑️ Limpar Cache
+            <button 
+              onClick={limparCache}
+              disabled={loading.cache}
+              style={{
+                background: loading.cache 
+                  ? 'linear-gradient(135deg, rgba(100, 116, 139, 0.8) 0%, rgba(71, 85, 105, 0.8) 100%)'
+                  : 'rgba(255, 255, 255, 0.1)',
+                color: loading.cache ? '#94a3b8' : '#cbd5e1',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                padding: '16px',
+                borderRadius: '10px',
+                fontWeight: '600',
+                cursor: loading.cache ? 'not-allowed' : 'pointer',
+                transition: 'all 0.3s ease',
+                textAlign: 'left',
+                opacity: loading.cache ? 0.7 : 1
+              }}
+            >
+              {loading.cache ? '⏳ Limpando...' : '🗑️ Limpar Cache'}
             </button>
 
-            <button style={{
-              background: 'rgba(255, 255, 255, 0.1)',
-              color: '#cbd5e1',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              padding: '16px',
-              borderRadius: '10px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              textAlign: 'left'
-            }}>
-              📊 Exportar Dados
+            <button 
+              onClick={exportarDados}
+              disabled={loading.export}
+              style={{
+                background: loading.export 
+                  ? 'linear-gradient(135deg, rgba(100, 116, 139, 0.8) 0%, rgba(71, 85, 105, 0.8) 100%)'
+                  : 'rgba(255, 255, 255, 0.1)',
+                color: loading.export ? '#94a3b8' : '#cbd5e1',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                padding: '16px',
+                borderRadius: '10px',
+                fontWeight: '600',
+                cursor: loading.export ? 'not-allowed' : 'pointer',
+                transition: 'all 0.3s ease',
+                textAlign: 'left',
+                opacity: loading.export ? 0.7 : 1
+              }}
+            >
+              {loading.export ? '⏳ Exportando...' : '📊 Exportar Dados'}
             </button>
 
-            <button style={{
-              background: 'rgba(239, 68, 68, 0.2)',
-              color: '#fca5a5',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              padding: '16px',
-              borderRadius: '10px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              textAlign: 'left'
-            }}>
-              🚫 Excluir Conta
+            <button 
+              onClick={excluirConta}
+              disabled={loading.delete}
+              style={{
+                background: loading.delete 
+                  ? 'linear-gradient(135deg, rgba(100, 116, 139, 0.8) 0%, rgba(71, 85, 105, 0.8) 100%)'
+                  : 'rgba(239, 68, 68, 0.2)',
+                color: loading.delete ? '#94a3b8' : '#fca5a5',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                padding: '16px',
+                borderRadius: '10px',
+                fontWeight: '600',
+                cursor: loading.delete ? 'not-allowed' : 'pointer',
+                transition: 'all 0.3s ease',
+                textAlign: 'left',
+                opacity: loading.delete ? 0.7 : 1
+              }}
+            >
+              {loading.delete ? '⏳ Excluindo...' : '🚫 Excluir Conta'}
             </button>
           </div>
         </div>
@@ -404,7 +498,7 @@ export default function Settings() {
 
       <style>{`
         /* Efeito hover para botões principais */
-        button:hover {
+        button:hover:not(:disabled) {
           transform: translateY(-2px);
           box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
         }
