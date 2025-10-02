@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 export default function Profile() {
   const [user, setUser] = useState({
-    name: "Diego Carvalho",
-    email: "diego.carvalho@empresa.com",
-    phone: "+55 (11) 99999-9999",
+    name: "Diego Ricardo Carvalho",
+    email: "diegoricardo2527@gmail.com",
+    phone: "+55 (84) 99418-2380",
     position: "Gerente de Vendas",
     department: "Comercial",
     joinDate: "15/03/2022"
@@ -12,6 +12,8 @@ export default function Profile() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({ ...user });
+  const [profileImage, setProfileImage] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -21,7 +23,6 @@ export default function Profile() {
   const handleSave = () => {
     setUser({ ...editedUser });
     setIsEditing(false);
-    // Aqui você pode adicionar uma chamada API para salvar no backend
   };
 
   const handleCancel = () => {
@@ -34,6 +35,40 @@ export default function Profile() {
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecione apenas arquivos de imagem.');
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        alert('A imagem deve ter no máximo 5MB.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfileImage(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleChangePhotoClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   return (
@@ -49,7 +84,6 @@ export default function Profile() {
       fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
     }}>
       
-      {/* Header Profissional */}
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -138,7 +172,14 @@ export default function Profile() {
         )}
       </div>
 
-      {/* Conteúdo Principal */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleImageChange}
+        accept="image/*"
+        style={{ display: 'none' }}
+      />
+
       <div style={{
         padding: '32px',
         position: 'relative',
@@ -152,7 +193,6 @@ export default function Profile() {
           alignItems: 'start'
         }}>
 
-          {/* Card Foto e Informações Básicas */}
           <div style={{
             background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
             borderRadius: '20px',
@@ -163,21 +203,36 @@ export default function Profile() {
             textAlign: 'center',
             transition: 'all 0.3s ease'
           }}>
-            {/* Foto de Perfil */}
             <div style={{
               width: '120px',
               height: '120px',
-              background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+              background: profileImage 
+                ? 'transparent'
+                : 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
               borderRadius: '50%',
               margin: '0 auto 20px auto',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '40px',
+              fontSize: profileImage ? '0' : '40px',
               color: 'white',
-              border: '4px solid rgba(255, 255, 255, 0.2)'
+              border: '4px solid rgba(255, 255, 255, 0.2)',
+              overflow: 'hidden',
+              position: 'relative'
             }}>
-              DC
+              {profileImage ? (
+                <img 
+                  src={profileImage} 
+                  alt="Foto de perfil" 
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                />
+              ) : (
+                getInitials(user.name)
+              )}
             </div>
 
             <h2 style={{ 
@@ -230,23 +285,39 @@ export default function Profile() {
               </p>
             </div>
 
-            <button style={{
-              width: '100%',
-              background: 'rgba(255, 255, 255, 0.1)',
-              color: '#cbd5e1',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              padding: '12px 20px',
-              borderRadius: '10px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              marginTop: '20px'
-            }}>
+            <button 
+              onClick={handleChangePhotoClick}
+              style={{
+                width: '100%',
+                background: 'rgba(255, 255, 255, 0.1)',
+                color: '#cbd5e1',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                padding: '12px 20px',
+                borderRadius: '10px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                marginTop: '20px'
+              }}
+            >
               📷 Alterar Foto
             </button>
+
+            {profileImage && (
+              <div style={{
+                marginTop: '12px',
+                padding: '8px 12px',
+                background: 'rgba(16, 185, 129, 0.1)',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                borderRadius: '8px',
+                fontSize: '12px',
+                color: '#10b981'
+              }}>
+                ✅ Foto personalizada ativa
+              </div>
+            )}
           </div>
 
-          {/* Card Informações Detalhadas */}
           <div style={{
             background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
             borderRadius: '20px',
@@ -274,7 +345,6 @@ export default function Profile() {
               gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
               gap: '24px'
             }}>
-              {/* Nome */}
               <div>
                 <label style={{ 
                   display: 'block', 
@@ -315,7 +385,6 @@ export default function Profile() {
                 )}
               </div>
 
-              {/* Email */}
               <div>
                 <label style={{ 
                   display: 'block', 
@@ -356,7 +425,6 @@ export default function Profile() {
                 )}
               </div>
 
-              {/* Telefone */}
               <div>
                 <label style={{ 
                   display: 'block', 
@@ -397,7 +465,6 @@ export default function Profile() {
                 )}
               </div>
 
-              {/* Cargo */}
               <div>
                 <label style={{ 
                   display: 'block', 
@@ -438,7 +505,6 @@ export default function Profile() {
                 )}
               </div>
 
-              {/* Departamento */}
               <div>
                 <label style={{ 
                   display: 'block', 
@@ -482,7 +548,6 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Card Estatísticas */}
         <div style={{
           background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
           borderRadius: '20px',
