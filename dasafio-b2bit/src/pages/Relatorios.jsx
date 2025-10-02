@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import SalesChart from "../components/SalesChart";
-import StatCard from "../components/StatCard";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 export default function Relatorios() {
   const [relatorioAtivo, setRelatorioAtivo] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const salesChartRef = useRef(null);
+  const usersChartRef = useRef(null);
 
   const dadosVendas = [
     { month: 'Jan', sales: 3200 },
@@ -37,8 +41,174 @@ export default function Relatorios() {
     setRelatorioAtivo(null);
   };
 
-  const gerarRelatorio = (tipo) => {
-    alert(`📊 Relatório ${tipo} está sendo gerado...`);
+  const gerarPDFVendas = async () => {
+    setLoading(true);
+    try {
+      const element = salesChartRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#0f172a'
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.setFontSize(20);
+      pdf.setTextColor(59, 130, 246);
+      pdf.text('Relatório de Vendas - B2Bit', pdfWidth / 2, 20, { align: 'center' });
+
+      pdf.setFontSize(12);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text(`Gerado em: ${new Date().toLocaleDateString()}`, pdfWidth / 2, 30, { align: 'center' });
+
+      pdf.addImage(imgData, 'PNG', 10, 40, pdfWidth - 20, pdfHeight * 0.6);
+
+      pdf.setFontSize(14);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text('Resumo das Vendas:', 15, pdfHeight * 0.6 + 60);
+
+      pdf.setFontSize(10);
+      pdf.setTextColor(203, 213, 225);
+      
+      const totalVendas = dadosVendas.reduce((sum, item) => sum + item.sales, 0);
+      const mediaVendas = totalVendas / dadosVendas.length;
+      const maiorVenda = Math.max(...dadosVendas.map(item => item.sales));
+      const menorVenda = Math.min(...dadosVendas.map(item => item.sales));
+
+      pdf.text(`• Total de Vendas: R$ ${totalVendas.toLocaleString()}`, 20, pdfHeight * 0.6 + 75);
+      pdf.text(`• Média Mensal: R$ ${mediaVendas.toLocaleString()}`, 20, pdfHeight * 0.6 + 85);
+      pdf.text(`• Maior Venda: R$ ${maiorVenda.toLocaleString()}`, 20, pdfHeight * 0.6 + 95);
+      pdf.text(`• Menor Venda: R$ ${menorVenda.toLocaleString()}`, 20, pdfHeight * 0.6 + 105);
+
+      pdf.save(`relatorio-vendas-${new Date().getTime()}.pdf`);
+      
+    } catch (error) {
+      console.error('Erro ao gerar PDF:', error);
+      alert('Erro ao gerar PDF. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const gerarPDFUsuarios = async () => {
+    setLoading(true);
+    try {
+      const element = usersChartRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#0f172a'
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.setFontSize(20);
+      pdf.setTextColor(16, 185, 129);
+      pdf.text('Relatório de Usuários - B2Bit', pdfWidth / 2, 20, { align: 'center' });
+
+      pdf.setFontSize(12);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text(`Gerado em: ${new Date().toLocaleDateString()}`, pdfWidth / 2, 30, { align: 'center' });
+
+      pdf.addImage(imgData, 'PNG', 10, 40, pdfWidth - 20, pdfHeight * 0.6);
+
+      pdf.setFontSize(14);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text('Resumo de Usuários:', 15, pdfHeight * 0.6 + 60);
+
+      pdf.setFontSize(10);
+      pdf.setTextColor(203, 213, 225);
+      
+      const totalUsuarios = dadosUsuarios.reduce((sum, item) => sum + item.users, 0);
+      const mediaUsuarios = totalUsuarios / dadosUsuarios.length;
+      const maiorUsuario = Math.max(...dadosUsuarios.map(item => item.users));
+      const crescimento = ((dadosUsuarios[dadosUsuarios.length - 1].users - dadosUsuarios[0].users) / dadosUsuarios[0].users * 100).toFixed(1);
+
+      pdf.text(`• Total de Usuários: ${totalUsuarios.toLocaleString()}`, 20, pdfHeight * 0.6 + 75);
+      pdf.text(`• Média Mensal: ${mediaUsuarios.toLocaleString()}`, 20, pdfHeight * 0.6 + 85);
+      pdf.text(`• Pico de Usuários: ${maiorUsuario.toLocaleString()}`, 20, pdfHeight * 0.6 + 95);
+      pdf.text(`• Crescimento: +${crescimento}%`, 20, pdfHeight * 0.6 + 105);
+
+      pdf.save(`relatorio-usuarios-${new Date().getTime()}.pdf`);
+      
+    } catch (error) {
+      console.error('Erro ao gerar PDF:', error);
+      alert('Erro ao gerar PDF. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const exportarTudo = async () => {
+    setLoading(true);
+    try {
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+
+      pdf.setFontSize(20);
+      pdf.setTextColor(59, 130, 246);
+      pdf.text('Relatório Completo - B2Bit', pdfWidth / 2, 20, { align: 'center' });
+
+      pdf.setFontSize(12);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text(`Gerado em: ${new Date().toLocaleDateString()}`, pdfWidth / 2, 30, { align: 'center' });
+
+      const salesCanvas = await html2canvas(salesChartRef.current, {
+        scale: 1.5,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#0f172a'
+      });
+      const salesImgData = salesCanvas.toDataURL('image/png');
+      pdf.addImage(salesImgData, 'PNG', 10, 40, pdfWidth - 20, 80);
+
+      pdf.setFontSize(14);
+      pdf.setTextColor(59, 130, 246);
+      pdf.text('Relatório de Vendas:', 15, 130);
+      
+      pdf.setFontSize(10);
+      pdf.setTextColor(203, 213, 225);
+      const totalVendas = dadosVendas.reduce((sum, item) => sum + item.sales, 0);
+      pdf.text(`• Total: R$ ${totalVendas.toLocaleString()}`, 20, 140);
+      pdf.text(`• Período: ${dadosVendas.length} meses`, 20, 147);
+
+      pdf.addPage();
+
+      const usersCanvas = await html2canvas(usersChartRef.current, {
+        scale: 1.5,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#0f172a'
+      });
+      const usersImgData = usersCanvas.toDataURL('image/png');
+      pdf.addImage(usersImgData, 'PNG', 10, 20, pdfWidth - 20, 80);
+
+      pdf.setFontSize(14);
+      pdf.setTextColor(16, 185, 129);
+      pdf.text('Relatório de Usuários:', 15, 110);
+      
+      pdf.setFontSize(10);
+      pdf.setTextColor(203, 213, 225);
+      const totalUsuarios = dadosUsuarios.reduce((sum, item) => sum + item.users, 0);
+      pdf.text(`• Total: ${totalUsuarios.toLocaleString()} usuários`, 20, 120);
+      pdf.text(`• Período: ${dadosUsuarios.length} meses`, 20, 127);
+
+      pdf.save(`relatorio-completo-b2bit-${new Date().getTime()}.pdf`);
+
+    } catch (error) {
+      console.error('Erro ao exportar relatórios:', error);
+      alert('Erro ao exportar relatórios. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -54,7 +224,6 @@ export default function Relatorios() {
       fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
     }}>
       
-      {/* Header Profissional */}
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -88,30 +257,35 @@ export default function Relatorios() {
             Análises detalhadas com gráficos interativos
           </p>
         </div>
-        <button style={{
-          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.8) 0%, rgba(139, 92, 246, 0.8) 100%)',
-          color: 'white',
-          border: 'none',
-          padding: '12px 24px',
-          borderRadius: '12px',
-          fontWeight: '600',
-          cursor: 'pointer',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          transition: 'all 0.3s ease'
-        }}>
-          📈 Exportar Tudo
+        <button 
+          style={{
+            background: loading 
+              ? 'linear-gradient(135deg, rgba(100, 116, 139, 0.8) 0%, rgba(71, 85, 105, 0.8) 100%)'
+              : 'linear-gradient(135deg, rgba(99, 102, 241, 0.8) 0%, rgba(139, 92, 246, 0.8) 100%)',
+            color: 'white',
+            border: 'none',
+            padding: '12px 24px',
+            borderRadius: '12px',
+            fontWeight: '600',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            transition: 'all 0.3s ease',
+            opacity: loading ? 0.7 : 1
+          }}
+          onClick={exportarTudo}
+          disabled={loading}
+        >
+          {loading ? '⏳ Exportando...' : '📈 Exportar Tudo'}
         </button>
       </div>
 
-      {/* Conteúdo Principal */}
       <div style={{
         padding: '32px',
         position: 'relative',
         zIndex: '1'
       }}>
 
-        {/* Métricas Rápidas usando StatCard (adaptado) */}
         <div style={{
           display: 'flex',
           gap: '20px',
@@ -161,23 +335,24 @@ export default function Relatorios() {
           </div>
         </div>
 
-        {/* Grid de Cards de Relatório */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
           gap: '24px'
         }}>
 
-          {/* Card Relatório de Vendas */}
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
-            borderRadius: '20px',
-            padding: '28px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            transition: 'all 0.3s ease'
-          }}>
+          <div 
+            ref={salesChartRef}
+            style={{
+              background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
+              borderRadius: '20px',
+              padding: '28px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              transition: 'all 0.3s ease'
+            }}
+          >
             <h2 style={{ 
               margin: '0 0 16px 0', 
               fontSize: '20px', 
@@ -191,7 +366,6 @@ export default function Relatorios() {
               Relatório de Vendas
             </h2>
             
-            {/* USANDO O SALESCHART EXISTENTE */}
             <div style={{ 
               background: 'rgba(255, 255, 255, 0.05)',
               borderRadius: '12px',
@@ -212,19 +386,23 @@ export default function Relatorios() {
             <div style={{ display: 'flex', gap: '12px' }}>
               <button 
                 style={{
-                  background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                  background: loading 
+                    ? 'linear-gradient(135deg, rgba(100, 116, 139, 0.8) 0%, rgba(71, 85, 105, 0.8) 100%)'
+                    : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
                   color: 'white',
                   border: 'none',
                   padding: '12px 20px',
                   borderRadius: '10px',
                   fontWeight: '600',
-                  cursor: 'pointer',
+                  cursor: loading ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s ease',
-                  flex: '1'
+                  flex: '1',
+                  opacity: loading ? 0.7 : 1
                 }}
-                onClick={() => gerarRelatorio('de Vendas')}
+                onClick={gerarPDFVendas}
+                disabled={loading}
               >
-                📄 Gerar PDF
+                {loading ? '⏳ Gerando...' : '📄 Gerar PDF'}
               </button>
               <button 
                 style={{
@@ -245,16 +423,18 @@ export default function Relatorios() {
             </div>
           </div>
 
-          {/* Card Relatório de Usuários */}
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
-            borderRadius: '20px',
-            padding: '28px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            transition: 'all 0.3s ease'
-          }}>
+          <div 
+            ref={usersChartRef}
+            style={{
+              background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
+              borderRadius: '20px',
+              padding: '28px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              transition: 'all 0.3s ease'
+            }}
+          >
             <h2 style={{ 
               margin: '0 0 16px 0', 
               fontSize: '20px', 
@@ -268,7 +448,6 @@ export default function Relatorios() {
               Relatório de Usuários
             </h2>
             
-            {/* Gráfico de Usuários */}
             <div style={{ 
               background: 'rgba(255, 255, 255, 0.05)',
               borderRadius: '12px',
@@ -293,19 +472,23 @@ export default function Relatorios() {
             <div style={{ display: 'flex', gap: '12px' }}>
               <button 
                 style={{
-                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                  background: loading 
+                    ? 'linear-gradient(135deg, rgba(100, 116, 139, 0.8) 0%, rgba(71, 85, 105, 0.8) 100%)'
+                    : 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
                   color: 'white',
                   border: 'none',
                   padding: '12px 20px',
                   borderRadius: '10px',
                   fontWeight: '600',
-                  cursor: 'pointer',
+                  cursor: loading ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s ease',
-                  flex: '1'
+                  flex: '1',
+                  opacity: loading ? 0.7 : 1
                 }}
-                onClick={() => gerarRelatorio('de Usuários')}
+                onClick={gerarPDFUsuarios}
+                disabled={loading}
               >
-                📄 Gerar PDF
+                {loading ? '⏳ Gerando...' : '📄 Gerar PDF'}
               </button>
               <button 
                 style={{
@@ -328,7 +511,6 @@ export default function Relatorios() {
 
         </div>
 
-        {/* Modal de Detalhes */}
         {relatorioAtivo && (
           <div style={{
             position: 'fixed',
@@ -410,7 +592,7 @@ export default function Relatorios() {
 
       <style>{`
         /* Efeito hover para botões principais */
-        button:hover {
+        button:hover:not(:disabled) {
           transform: translateY(-2px);
           box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
         }
@@ -418,13 +600,13 @@ export default function Relatorios() {
         /* Efeito hover para cards de métricas */
         div[style*="background: linear-gradient(135deg, rgba(30, 41, 59, 0.8)"]:hover {
           transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+          boxShadow: 0 12px 40px rgba(0, 0, 0, 0.4);
         }
         
         /* Efeito hover para cards de relatório */
         div[style*="background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)"]:hover {
           transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+          boxShadow: 0 12px 40px rgba(0, 0, 0, 0.4);
         }
       `}</style>
     </div>
